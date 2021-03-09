@@ -1,4 +1,4 @@
-const { STRING } = require('sequelize/types');
+const { STRING } = require('sequelize');
 const db = require('./db');
 
 const Xenomorph = db.define('xenomorph', {
@@ -30,11 +30,10 @@ const Xenomorph = db.define('xenomorph', {
   },
 });
 
-// Which media did the alien type appear in
+// Which media did the alien type first appear in
 const Media = db.define('media', {
   name: {
     type: STRING,
-    allowNull: false,
     unique: true,
     validate: {
       notEmpty: true,
@@ -43,8 +42,8 @@ const Media = db.define('media', {
 });
 
 // 1 alien type could have been in multiple media type
-Xenomorph.hasMany(Media);
-Media.belongsTo(Xenomorph);
+Media.hasMany(Xenomorph);
+Xenomorph.belongsTo(Media);
 
 module.exports = {
   Xenomorph,
