@@ -34,10 +34,6 @@ const Xenomorph = db.define('xenomorph', {
 const Media = db.define('media', {
   name: {
     type: STRING,
-    unique: true,
-    validate: {
-      notEmpty: true,
-    },
   },
 });
 

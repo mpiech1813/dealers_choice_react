@@ -17,7 +17,7 @@ const syncAndSeed = async () => {
     growth: 'Pre-life',
     size: 'Medium',
     ability: 'Detect lifeforms and store Facehuggers indefinitely',
-    mediumId: 2,
+    mediumId: 3,
   });
 
   const facehugger = await Xenomorph.create({
