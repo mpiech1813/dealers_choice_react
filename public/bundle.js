@@ -1893,6 +1893,35 @@ const AliensList = props => {
 
 /***/ }),
 
+/***/ "./app/NavBar.js":
+/*!***********************!*\
+  !*** ./app/NavBar.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+const NavBar = props => {
+  const {
+    goHome
+  } = props;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    id: "nav"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
+    onClick: () => goHome()
+  }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Aliens"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Media"));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBar);
+
+/***/ }),
+
 /***/ "./app/SingleAlien.js":
 /*!****************************!*\
   !*** ./app/SingleAlien.js ***!
@@ -32017,7 +32046,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _AliensList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AliensList */ "./app/AliensList.js");
 /* harmony import */ var _SingleAlien__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SingleAlien */ "./app/SingleAlien.js");
+/* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavBar */ "./app/NavBar.js");
 //react will go here
+
 
 
 
@@ -32030,9 +32061,11 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.state = {
       aliens: [],
       media: [],
-      selectedAlien: {}
+      selectedAlien: {},
+      home: true
     };
     this.selectAlien = this.selectAlien.bind(this);
+    this.goHome = this.goHome.bind(this);
   }
 
   async componentDidMount() {
@@ -32053,19 +32086,29 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       const selectedAlien = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
 
       this.setState({
-        selectedAlien
+        selectedAlien,
+        home: !this.state.home
       });
     } catch (error) {
       console.log(error);
     }
   }
 
+  goHome() {
+    this.setState({
+      home: !this.state.home
+    });
+  }
+
   render() {
     const {
       aliens,
-      selectedAlien
+      selectedAlien,
+      home
     } = this.state;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealers Choice React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List of Aliens"), selectedAlien.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealers Choice React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List of Aliens"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_5__.default, {
+      goHome: this.goHome
+    }), !home ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
       selectedAlien: selectedAlien
     }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
       aliens: aliens,
