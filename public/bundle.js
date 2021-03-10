@@ -30065,7 +30065,7 @@ __webpack_require__.r(__webpack_exports__);
 class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super();
-    state = {};
+    this.state = {};
   }
 
   render() {

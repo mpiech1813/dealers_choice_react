@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 class App extends Component {
   constructor() {
     super();
-    state = {};
+    this.state = {};
   }
   render() {
     return (
