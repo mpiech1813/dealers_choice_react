@@ -6,13 +6,14 @@ const morgan = require('morgan');
 const app = express();
 const { static } = express;
 
-app.use('/public', static(path.join(__dirname, './public')));
+// app.use('/public', static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, './public')));
 app.use('/api', require('./routes/index'));
 app.use(morgan('dev'));
 
 app.get('/', async (req, res, next) => {
   try {
-    res.sendFile(path.join(__dirname, './public/index.html'));
+    res.sendFile(path.join(__dirname, './kolindex.html'));
   } catch (error) {
     console.log(error);
   }

@@ -5,11 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
+    "start": "npm run start:dev & npm run build:dev",
     "start:dev": "nodemon server",
     "build": "webpack",
-    "build:dev": "webpack -w",
-    "start": "npm run start:dev & npm run build:dev"
+    "build:dev": "webpack -w"
   },
   "repository": {
     "type": "git",
@@ -25,6 +24,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "pg": "^8.5.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "sequelize": "^6.5.0"
   },
   "devDependencies": {
