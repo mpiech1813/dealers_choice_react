@@ -1,8 +1,9 @@
-body div {
-  border: solid 1px red;
+#nav {
+  display: flex;
+  flex-direction: column;
 }
 
-#nav {
+#nav div {
   display: flex;
   justify-content: space-around;
   align-items: center;

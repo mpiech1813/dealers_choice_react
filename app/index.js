@@ -5,6 +5,7 @@ import axios from 'axios';
 import AliensList from './AliensList';
 import SingleAlien from './SingleAlien';
 import NavBar from './NavBar';
+import Home from './Home';
 
 class App extends Component {
   constructor() {
@@ -17,6 +18,7 @@ class App extends Component {
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
+    this.goAliens = this.goAliens.bind(this);
   }
 
   async componentDidMount() {
@@ -39,24 +41,47 @@ class App extends Component {
   }
 
   goHome() {
-    this.setState({ home: !this.state.home });
+    this.setState({ selectedAlien: {}, home: true });
+  }
+
+  goAliens() {
+    this.setState({ home: false });
   }
 
   render() {
-    const { aliens, selectedAlien, home } = this.state;
+    const { aliens, selectedAlien, home, media } = this.state;
     return (
       <div>
-        <h1>Dealers Choice React</h1>
-        <h2>List of Aliens</h2>
-        <NavBar goHome={this.goHome} />
-        {!home ? (
-          <SingleAlien selectedAlien={selectedAlien} />
-        ) : (
-          <AliensList aliens={aliens} selectAlien={this.selectAlien} />
-        )}
+        <NavBar
+          goHome={this.goHome}
+          goAliens={this.goAliens}
+          aliens={aliens}
+          media={media}
+        />
+        <div id="home">
+          {home ? (
+            <Home aliens={aliens} />
+          ) : !home && selectedAlien.id ? (
+            <SingleAlien selectedAlien={selectedAlien} />
+          ) : (
+            <AliensList
+              aliens={aliens}
+              selectAlien={this.selectAlien}
+              goAliens={this.goAliens}
+            />
+          )}
+        </div>
       </div>
     );
   }
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+/*
+        {!home ? (
+          <SingleAlien selectedAlien={selectedAlien} />
+        ) : (
+          <AliensList aliens={aliens} selectAlien={this.selectAlien} />
+        )}
+*/
