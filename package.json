@@ -6,7 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server",
-    "start:dev": "nodemon server"
+    "start:dev": "nodemon server",
+    "build": "webpack",
+    "build:dev": "webpack -w",
+    "start": "npm run start:dev & npm run build:dev"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,12 @@
     "sequelize": "^6.5.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@babel/core": "^7.13.10",
+    "@babel/preset-react": "^7.12.13",
+    "babel-loader": "^8.2.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.7",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
   }
 }
