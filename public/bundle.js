@@ -1849,7 +1849,10 @@ __webpack_require__.r(__webpack_exports__);
 
 const AlienListItem = props => {
   const alien = props.alien;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, alien.name);
+  const selectAlien = props.selectAlien;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+    onClick: () => selectAlien(alien.id)
+  }, alien.name);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AlienListItem);
@@ -1874,17 +1877,44 @@ __webpack_require__.r(__webpack_exports__);
 
 const AliensList = props => {
   const {
-    aliens
+    aliens,
+    selectAlien
   } = props;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, aliens.map(alien => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AlienListItem__WEBPACK_IMPORTED_MODULE_1__.default, {
       key: alien.id,
-      alien: alien
+      alien: alien,
+      selectAlien: selectAlien
     });
   }));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AliensList);
+
+/***/ }),
+
+/***/ "./app/SingleAlien.js":
+/*!****************************!*\
+  !*** ./app/SingleAlien.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+const SingleAlien = props => {
+  const {
+    selectedAlien
+  } = props;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, selectedAlien.name), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, selectedAlien.growth), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, selectedAlien.size), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, selectedAlien.ability));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SingleAlien);
 
 /***/ }),
 
@@ -31986,7 +32016,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _AliensList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AliensList */ "./app/AliensList.js");
+/* harmony import */ var _SingleAlien__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SingleAlien */ "./app/SingleAlien.js");
 //react will go here
+
 
 
 
@@ -31996,15 +32028,32 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
     super();
     this.state = {
-      aliens: []
+      aliens: [],
+      media: [],
+      selectedAlien: {}
     };
+    this.selectAlien = this.selectAlien.bind(this);
   }
 
   async componentDidMount() {
     try {
       const aliens = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/aliens')).data;
+      const media = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/media')).data;
       this.setState({
-        aliens
+        aliens,
+        media
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async selectAlien(alienId) {
+    try {
+      const selectedAlien = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
+
+      this.setState({
+        selectedAlien
       });
     } catch (error) {
       console.log(error);
@@ -32013,10 +32062,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
 
   render() {
     const {
-      aliens
+      aliens,
+      selectedAlien
     } = this.state;
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealers Choice React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List of Aliens"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
-      aliens: aliens
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealers Choice React"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "List of Aliens"), selectedAlien.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
+      selectedAlien: selectedAlien
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
+      aliens: aliens,
+      selectAlien: this.selectAlien
     }));
   }
 
