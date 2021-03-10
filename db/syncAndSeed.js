@@ -7,7 +7,7 @@ const syncAndSeed = async () => {
   // populate Media model
   const [books, comics, movies, games] = await Promise.all(
     ['Books', 'Comics', 'Movies', 'Games'].map((name) => {
-      Media.create({ name });
+      return Media.create({ name });
     })
   );
 
@@ -17,7 +17,7 @@ const syncAndSeed = async () => {
     growth: 'Pre-life',
     size: 'Medium',
     ability: 'Detect lifeforms and store Facehuggers indefinitely',
-    mediumId: 3,
+    mediumId: movies.id,
   });
 
   const facehugger = await Xenomorph.create({

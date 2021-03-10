@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const syncAndSeed = require('./db/syncAndSeed');
-const { Xenomorph, Media } = require('./db/Models');
 
 const app = express();
 const { static } = express;
@@ -16,14 +15,7 @@ app.get('/', async (req, res, next) => {
   }
 });
 
-app.get('/aliens', async (req, res, next) => {
-  try {
-    const list = await Xenomorph.findAll();
-    res.send(list);
-  } catch (error) {
-    console.log(error);
-  }
-});
+app.use('/api', require('./routes/index'));
 
 const run = async () => {
   try {
