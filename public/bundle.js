@@ -1852,8 +1852,7 @@ const AlienListItem = props => {
   const selectAlien = props.selectAlien;
   const goAliens = props.goAliens;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    onClick: () => selectAlien(alien.id),
-    onClick: () => goAliens()
+    onClick: () => selectAlien(alien.id)
   }, alien.name);
 };
 
@@ -32098,7 +32097,9 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true
+      home: true,
+      //may need to remove this
+      display: ''
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -32123,8 +32124,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       const selectedAlien = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
 
       this.setState({
-        selectedAlien,
-        home: !this.state.home
+        selectedAlien
       });
     } catch (error) {
       console.log(error);
@@ -32135,13 +32135,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.setState({
       selectedAlien: {},
       home: true
-    });
+    }); // this.setState({ display: '' });
   }
 
   goAliens() {
     this.setState({
-      home: false
-    });
+      home: false,
+      selectedAlien: {}
+    }); // this.setState({ display: 'aliens' });
   }
 
   render() {
@@ -32149,7 +32150,8 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens,
       selectedAlien,
       home,
-      media
+      media,
+      display
     } = this.state;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_5__.default, {
       goHome: this.goHome,
@@ -32158,14 +32160,15 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       media: media
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
       id: "home"
-    }, home ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
-      aliens: aliens
-    }) : !home && selectedAlien.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
+    }, selectedAlien.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
       selectedAlien: selectedAlien
-    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
+    }) : !home ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
       aliens: aliens,
       selectAlien: this.selectAlien,
-      goAliens: this.goAliens
+      goAliens: this.goAliens,
+      display: display
+    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
+      aliens: aliens
     })));
   }
 
@@ -32178,6 +32181,20 @@ react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPOR
         ) : (
           <AliensList aliens={aliens} selectAlien={this.selectAlien} />
         )}
+*/
+
+/*
+{home ? (
+  <Home aliens={aliens} />
+) : selectedAlien.id ? (
+  <SingleAlien selectedAlien={selectedAlien} />
+) : (
+  <AliensList
+    aliens={aliens}
+    selectAlien={this.selectAlien}
+    goAliens={this.goAliens}
+  />
+)}
 */
 })();
 

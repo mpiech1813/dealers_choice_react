@@ -14,7 +14,8 @@ class App extends Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true,
+      home: true, //may need to remove this
+      display: '',
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -34,7 +35,7 @@ class App extends Component {
   async selectAlien(alienId) {
     try {
       const selectedAlien = (await axios.get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
-      this.setState({ selectedAlien, home: !this.state.home });
+      this.setState({ selectedAlien });
     } catch (error) {
       console.log(error);
     }
@@ -42,14 +43,16 @@ class App extends Component {
 
   goHome() {
     this.setState({ selectedAlien: {}, home: true });
+    // this.setState({ display: '' });
   }
 
   goAliens() {
-    this.setState({ home: false });
+    this.setState({ home: false, selectedAlien: {} });
+    // this.setState({ display: 'aliens' });
   }
 
   render() {
-    const { aliens, selectedAlien, home, media } = this.state;
+    const { aliens, selectedAlien, home, media, display } = this.state;
     return (
       <div>
         <NavBar
@@ -59,16 +62,17 @@ class App extends Component {
           media={media}
         />
         <div id="home">
-          {home ? (
-            <Home aliens={aliens} />
-          ) : !home && selectedAlien.id ? (
+          {selectedAlien.id ? (
             <SingleAlien selectedAlien={selectedAlien} />
-          ) : (
+          ) : !home ? (
             <AliensList
               aliens={aliens}
               selectAlien={this.selectAlien}
               goAliens={this.goAliens}
+              display={display}
             />
+          ) : (
+            <Home aliens={aliens} />
           )}
         </div>
       </div>
@@ -84,4 +88,18 @@ ReactDOM.render(<App />, document.getElementById('app'));
         ) : (
           <AliensList aliens={aliens} selectAlien={this.selectAlien} />
         )}
+*/
+
+/*
+{home ? (
+  <Home aliens={aliens} />
+) : selectedAlien.id ? (
+  <SingleAlien selectedAlien={selectedAlien} />
+) : (
+  <AliensList
+    aliens={aliens}
+    selectAlien={this.selectAlien}
+    goAliens={this.goAliens}
+  />
+)}
 */
