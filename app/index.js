@@ -6,6 +6,7 @@ import AliensList from './AliensList';
 import SingleAlien from './SingleAlien';
 import NavBar from './NavBar';
 import Home from './Home';
+import MediaList from './MediaList';
 
 class App extends Component {
   constructor() {
@@ -14,8 +15,7 @@ class App extends Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true, //may need to remove this
-      display: '',
+      home: true,
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -43,12 +43,10 @@ class App extends Component {
 
   goHome() {
     this.setState({ selectedAlien: {}, home: true });
-    // this.setState({ display: '' });
   }
 
   goAliens() {
     this.setState({ home: false, selectedAlien: {} });
-    // this.setState({ display: 'aliens' });
   }
 
   render() {
@@ -74,6 +72,7 @@ class App extends Component {
           ) : (
             <Home aliens={aliens} />
           )}
+          <MediaList media={media} />
         </div>
       </div>
     );
@@ -81,25 +80,3 @@ class App extends Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-/*
-        {!home ? (
-          <SingleAlien selectedAlien={selectedAlien} />
-        ) : (
-          <AliensList aliens={aliens} selectAlien={this.selectAlien} />
-        )}
-*/
-
-/*
-{home ? (
-  <Home aliens={aliens} />
-) : selectedAlien.id ? (
-  <SingleAlien selectedAlien={selectedAlien} />
-) : (
-  <AliensList
-    aliens={aliens}
-    selectAlien={this.selectAlien}
-    goAliens={this.goAliens}
-  />
-)}
-*/

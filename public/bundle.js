@@ -1851,9 +1851,9 @@ const AlienListItem = props => {
   const alien = props.alien;
   const selectAlien = props.selectAlien;
   const goAliens = props.goAliens;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     onClick: () => selectAlien(alien.id)
-  }, alien.name);
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, alien.name));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AlienListItem);
@@ -1918,6 +1918,35 @@ const Home = props => {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+
+/***/ }),
+
+/***/ "./app/MediaList.js":
+/*!**************************!*\
+  !*** ./app/MediaList.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+const MediaList = props => {
+  const {
+    media
+  } = props;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, media.map(med => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
+      key: med.id
+    }, med.name);
+  }));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MediaList);
 
 /***/ }),
 
@@ -32081,7 +32110,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SingleAlien__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SingleAlien */ "./app/SingleAlien.js");
 /* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavBar */ "./app/NavBar.js");
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Home */ "./app/Home.js");
+/* harmony import */ var _MediaList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MediaList */ "./app/MediaList.js");
 //react will go here
+
 
 
 
@@ -32097,9 +32128,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true,
-      //may need to remove this
-      display: ''
+      home: true
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -32135,14 +32164,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     this.setState({
       selectedAlien: {},
       home: true
-    }); // this.setState({ display: '' });
+    });
   }
 
   goAliens() {
     this.setState({
       home: false,
       selectedAlien: {}
-    }); // this.setState({ display: 'aliens' });
+    });
   }
 
   render() {
@@ -32169,33 +32198,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       display: display
     }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
       aliens: aliens
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MediaList__WEBPACK_IMPORTED_MODULE_7__.default, {
+      media: media
     })));
   }
 
 }
 
 react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), document.getElementById('app'));
-/*
-        {!home ? (
-          <SingleAlien selectedAlien={selectedAlien} />
-        ) : (
-          <AliensList aliens={aliens} selectAlien={this.selectAlien} />
-        )}
-*/
-
-/*
-{home ? (
-  <Home aliens={aliens} />
-) : selectedAlien.id ? (
-  <SingleAlien selectedAlien={selectedAlien} />
-) : (
-  <AliensList
-    aliens={aliens}
-    selectAlien={this.selectAlien}
-    goAliens={this.goAliens}
-  />
-)}
-*/
 })();
 
 /******/ })()
