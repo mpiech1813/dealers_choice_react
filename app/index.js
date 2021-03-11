@@ -1,4 +1,3 @@
-//react will go here
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
@@ -15,7 +14,7 @@ class App extends Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true,
+      home: 'HOME',
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -34,23 +33,27 @@ class App extends Component {
 
   async selectAlien(alienId) {
     try {
-      const selectedAlien = (await axios.get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
-      this.setState({ selectedAlien });
+      const selectedAlien = (await axios.get(`/api/id/${alienId}`)).data;
+      this.setState({ home: 'ALIEN', selectedAlien });
     } catch (error) {
       console.log(error);
     }
   }
 
   goHome() {
-    this.setState({ selectedAlien: {}, home: true });
+    this.setState({ selectedAlien: {}, home: 'HOME' });
   }
 
   goAliens() {
-    this.setState({ home: false, selectedAlien: {} });
+    this.setState({ selectedAlien: {}, home: 'ALIENS' });
   }
 
+  // goAlienDetail(detail) {
+  //   this.setState({ home: 'ALIEN', selectedAlien: detail });
+  // }
+
   render() {
-    const { aliens, selectedAlien, home, media, display } = this.state;
+    const { aliens, selectedAlien, home, media } = this.state;
     return (
       <div>
         <NavBar
@@ -59,20 +62,25 @@ class App extends Component {
           aliens={aliens}
           media={media}
         />
-        <div id="home">
-          {selectedAlien.id ? (
-            <SingleAlien selectedAlien={selectedAlien} />
-          ) : !home ? (
-            <AliensList
-              aliens={aliens}
-              selectAlien={this.selectAlien}
-              goAliens={this.goAliens}
-              display={display}
-            />
-          ) : (
-            <Home aliens={aliens} />
-          )}
-          <MediaList media={media} />
+        <div id="mainDisplay">
+          {(() => {
+            switch (home) {
+              case 'HOME':
+                return <Home aliens={aliens} />;
+              case 'ALIENS':
+                return (
+                  <AliensList
+                    aliens={aliens}
+                    selectAlien={this.selectAlien}
+                    // goAlienDetail={this.goAlienDetail}
+                  />
+                );
+              case 'ALIEN':
+                return <SingleAlien selectedAlien={selectedAlien} />;
+              default:
+                return null;
+            }
+          })()}
         </div>
       </div>
     );
@@ -80,3 +88,23 @@ class App extends Component {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
+
+/* 
+
+            // swtich statement
+            // navigation component on state
+            //
+            selectedAlien.id ? (
+              <SingleAlien selectedAlien={selectedAlien} />
+            ) : !home ? (
+              <AliensList
+                aliens={aliens}
+                selectAlien={this.selectAlien}
+                goAliens={this.goAliens}
+              />
+            ) : (
+              <Home aliens={aliens} />
+            )
+          
+*/
+/*{ <MediaList media={media} /> }*/

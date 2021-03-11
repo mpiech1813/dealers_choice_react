@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AlienListItem from './AlienListItem';
 
 const AliensList = (props) => {
-  const { aliens, selectAlien, goAliens } = props;
+  const { aliens, selectAlien, goAlienDetail } = props;
   return (
     <div>
       {aliens.map((alien) => {
@@ -11,7 +11,7 @@ const AliensList = (props) => {
             key={alien.id}
             alien={alien}
             selectAlien={selectAlien}
-            goAliens={goAliens}
+            // goAlienDetail={goAlienDetail}
           />
         );
       })}

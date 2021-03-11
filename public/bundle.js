@@ -1848,7 +1848,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const AlienListItem = props => {
-  const alien = props.alien;
+  const {
+    alien
+  } = props;
   const selectAlien = props.selectAlien;
   const goAliens = props.goAliens;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -1880,14 +1882,14 @@ const AliensList = props => {
   const {
     aliens,
     selectAlien,
-    goAliens
+    goAlienDetail
   } = props;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, aliens.map(alien => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AlienListItem__WEBPACK_IMPORTED_MODULE_1__.default, {
       key: alien.id,
       alien: alien,
-      selectAlien: selectAlien,
-      goAliens: goAliens
+      selectAlien: selectAlien // goAlienDetail={goAlienDetail}
+
     });
   }));
 };
@@ -32111,7 +32113,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./NavBar */ "./app/NavBar.js");
 /* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Home */ "./app/Home.js");
 /* harmony import */ var _MediaList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./MediaList */ "./app/MediaList.js");
-//react will go here
 
 
 
@@ -32128,7 +32129,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: true
+      home: 'HOME'
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
@@ -32150,9 +32151,9 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
 
   async selectAlien(alienId) {
     try {
-      const selectedAlien = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get(`/api/id/${alienId}`)).data; //may need to brek this down to res= and alien =res.data?
-
+      const selectedAlien = (await axios__WEBPACK_IMPORTED_MODULE_2___default().get(`/api/id/${alienId}`)).data;
       this.setState({
+        home: 'ALIEN',
         selectedAlien
       });
     } catch (error) {
@@ -32163,24 +32164,26 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   goHome() {
     this.setState({
       selectedAlien: {},
-      home: true
+      home: 'HOME'
     });
   }
 
   goAliens() {
     this.setState({
-      home: false,
-      selectedAlien: {}
+      selectedAlien: {},
+      home: 'ALIENS'
     });
-  }
+  } // goAlienDetail(detail) {
+  //   this.setState({ home: 'ALIEN', selectedAlien: detail });
+  // }
+
 
   render() {
     const {
       aliens,
       selectedAlien,
       home,
-      media,
-      display
+      media
     } = this.state;
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_5__.default, {
       goHome: this.goHome,
@@ -32188,24 +32191,55 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: aliens,
       media: media
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-      id: "home"
-    }, selectedAlien.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
-      selectedAlien: selectedAlien
-    }) : !home ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
-      aliens: aliens,
-      selectAlien: this.selectAlien,
-      goAliens: this.goAliens,
-      display: display
-    }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
-      aliens: aliens
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MediaList__WEBPACK_IMPORTED_MODULE_7__.default, {
-      media: media
-    })));
+      id: "mainDisplay"
+    }, (() => {
+      switch (home) {
+        case 'HOME':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
+            aliens: aliens
+          });
+
+        case 'ALIENS':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AliensList__WEBPACK_IMPORTED_MODULE_3__.default, {
+            aliens: aliens,
+            selectAlien: this.selectAlien // goAlienDetail={this.goAlienDetail}
+
+          });
+
+        case 'ALIEN':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
+            selectedAlien: selectedAlien
+          });
+
+        default:
+          return null;
+      }
+    })()));
   }
 
 }
 
 react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(App, null), document.getElementById('app'));
+/* 
+
+            // swtich statement
+            // navigation component on state
+            //
+            selectedAlien.id ? (
+              <SingleAlien selectedAlien={selectedAlien} />
+            ) : !home ? (
+              <AliensList
+                aliens={aliens}
+                selectAlien={this.selectAlien}
+                goAliens={this.goAliens}
+              />
+            ) : (
+              <Home aliens={aliens} />
+            )
+          
+*/
+
+/*{ <MediaList media={media} /> }*/
 })();
 
 /******/ })()

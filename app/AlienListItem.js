@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const AlienListItem = (props) => {
-  const alien = props.alien;
+  const { alien } = props;
   const selectAlien = props.selectAlien;
   const goAliens = props.goAliens;
   return (
