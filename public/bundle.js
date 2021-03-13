@@ -1854,8 +1854,9 @@ const AlienListItem = props => {
   const selectAlien = props.selectAlien;
   const goAliens = props.goAliens;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    onClick: () => selectAlien(alien.id)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, alien.name));
+    onClick: () => selectAlien(alien.id),
+    class: "listItem"
+  }, alien.name);
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (AlienListItem);
@@ -1884,7 +1885,9 @@ const AliensList = props => {
     selectAlien,
     goAlienDetail
   } = props;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, aliens.map(alien => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    class: "list"
+  }, aliens.map(alien => {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_AlienListItem__WEBPACK_IMPORTED_MODULE_1__.default, {
       key: alien.id,
       alien: alien,
@@ -1941,10 +1944,11 @@ const MediaList = props => {
   const {
     media
   } = props;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, media.map(med => {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", {
-      key: med.id
-    }, med.name);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "This is a list of all the source media thus far"), media.map(med => {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      key: med.id,
+      class: "list"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, med.name));
   }));
 };
 
@@ -1970,16 +1974,17 @@ const NavBar = props => {
   const {
     goHome,
     goAliens,
+    goMedia,
     aliens,
     media
   } = props;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    id: "nav"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealer's Choice React")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("nav", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Dealer's Choice React")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
     onClick: () => goHome()
   }, "Home"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
     onClick: () => goAliens()
-  }, "Aliens(", aliens.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Media(", media.length, ")")));
+  }, "Aliens (", aliens.length, ")"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", {
+    onClick: () => goMedia()
+  }, "Media (", media.length, ")")));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (NavBar);
@@ -32120,7 +32125,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // import '../public/style.css';
 
 class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
@@ -32129,11 +32134,12 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: 'HOME'
+      home: ''
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
     this.goAliens = this.goAliens.bind(this);
+    this.goMedia = this.goMedia.bind(this);
   }
 
   async componentDidMount() {
@@ -32173,10 +32179,14 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       selectedAlien: {},
       home: 'ALIENS'
     });
-  } // goAlienDetail(detail) {
-  //   this.setState({ home: 'ALIEN', selectedAlien: detail });
-  // }
+  }
 
+  goMedia() {
+    this.setState({
+      selectedAlien: {},
+      home: 'MEDIA'
+    });
+  }
 
   render() {
     const {
@@ -32188,6 +32198,7 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_NavBar__WEBPACK_IMPORTED_MODULE_5__.default, {
       goHome: this.goHome,
       goAliens: this.goAliens,
+      goMedia: this.goMedia,
       aliens: aliens,
       media: media
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -32209,6 +32220,11 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         case 'ALIEN':
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_SingleAlien__WEBPACK_IMPORTED_MODULE_4__.default, {
             selectedAlien: selectedAlien
+          });
+
+        case 'MEDIA':
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_MediaList__WEBPACK_IMPORTED_MODULE_7__.default, {
+            media: media
           });
 
         default:

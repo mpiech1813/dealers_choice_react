@@ -1,10 +1,56 @@
-#nav {
+* {
+  background-color: black;
+  color: #99e600;
+}
+
+nav {
   display: flex;
   flex-direction: column;
 }
 
-#nav div {
+nav h2 {
+  border: 1px solid;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+nav h2:hover {
+  border: 1px solid yellowgreen;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #b3b300;
+  cursor: pointer;
+}
+
+nav div {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  color: green;
+  border: 1px solid white;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.listItem {
+  border: 1px solid #b3b300;
+  border-radius: 1rem;
+  width: 25%;
+  margin: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.listItem:hover {
+  border: 1px solid yellowgreen;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: #b3b300;
+  cursor: pointer;
 }

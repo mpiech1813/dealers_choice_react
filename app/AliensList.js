@@ -4,7 +4,7 @@ import AlienListItem from './AlienListItem';
 const AliensList = (props) => {
   const { aliens, selectAlien, goAlienDetail } = props;
   return (
-    <div>
+    <div class="list">
       {aliens.map((alien) => {
         return (
           <AlienListItem

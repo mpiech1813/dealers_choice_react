@@ -4,8 +4,13 @@ const MediaList = (props) => {
   const { media } = props;
   return (
     <div>
+      <h3>This is a list of all the source media thus far</h3>
       {media.map((med) => {
-        return <p key={med.id}>{med.name}</p>;
+        return (
+          <div key={med.id} class="list">
+            <p>{med.name}</p>
+          </div>
+        );
       })}
     </div>
   );

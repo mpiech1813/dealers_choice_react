@@ -6,6 +6,7 @@ import SingleAlien from './SingleAlien';
 import NavBar from './NavBar';
 import Home from './Home';
 import MediaList from './MediaList';
+// import '../public/style.css';
 
 class App extends Component {
   constructor() {
@@ -14,11 +15,12 @@ class App extends Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: 'HOME',
+      home: '',
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
     this.goAliens = this.goAliens.bind(this);
+    this.goMedia = this.goMedia.bind(this);
   }
 
   async componentDidMount() {
@@ -48,9 +50,9 @@ class App extends Component {
     this.setState({ selectedAlien: {}, home: 'ALIENS' });
   }
 
-  // goAlienDetail(detail) {
-  //   this.setState({ home: 'ALIEN', selectedAlien: detail });
-  // }
+  goMedia() {
+    this.setState({ selectedAlien: {}, home: 'MEDIA' });
+  }
 
   render() {
     const { aliens, selectedAlien, home, media } = this.state;
@@ -59,6 +61,7 @@ class App extends Component {
         <NavBar
           goHome={this.goHome}
           goAliens={this.goAliens}
+          goMedia={this.goMedia}
           aliens={aliens}
           media={media}
         />
@@ -77,6 +80,8 @@ class App extends Component {
                 );
               case 'ALIEN':
                 return <SingleAlien selectedAlien={selectedAlien} />;
+              case 'MEDIA':
+                return <MediaList media={media} />;
               default:
                 return null;
             }
