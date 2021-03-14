@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const syncAndSeed = require('./db/syncAndSeed');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 
 const app = express();
 const { static } = express;
@@ -9,7 +9,7 @@ const { static } = express;
 // app.use('/public', static(path.join(__dirname, './public')));
 app.use(express.static(path.join(__dirname, './public')));
 app.use('/api', require('./routes/index'));
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 app.get('/', async (req, res, next) => {
   try {
