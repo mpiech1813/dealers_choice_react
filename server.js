@@ -7,6 +7,7 @@ const app = express();
 const { static } = express;
 
 // app.use('/public', static(path.join(__dirname, './public')));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, './public')));
 app.use('/api', require('./routes/index'));
 // app.use(morgan('dev'));

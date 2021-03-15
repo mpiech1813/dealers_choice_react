@@ -12,4 +12,12 @@ aliensRouter.get('/', async (req, res, next) => {
   }
 });
 
+aliensRouter.post('/', async (req, res, next) => {
+  try {
+    const newAlien = await Xenomorph.create({});
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = aliensRouter;
