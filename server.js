@@ -20,6 +20,10 @@ app.get('/', async (req, res, next) => {
   }
 });
 
+/* app.use((error, req, res, next)=> {
+  res.status(500).send(error.message)
+}) ==> chgeck this for error handling */
+
 const run = async () => {
   try {
     await syncAndSeed();

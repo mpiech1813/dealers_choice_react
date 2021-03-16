@@ -54,3 +54,19 @@ nav div {
   background-color: #b3b300;
   cursor: pointer;
 }
+
+#home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#home form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 33%;
+  padding: 1rem;
+  margin: 1 rem;
+}

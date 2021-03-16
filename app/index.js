@@ -6,7 +6,6 @@ import SingleAlien from './SingleAlien';
 import NavBar from './NavBar';
 import Home from './Home';
 import MediaList from './MediaList';
-// import '../public/style.css';
 
 class App extends Component {
   constructor() {
@@ -15,12 +14,13 @@ class App extends Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: '',
+      home: 'HOME',
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
     this.goAliens = this.goAliens.bind(this);
     this.goMedia = this.goMedia.bind(this);
+    this.createAlien = this.createAlien.bind(this);
   }
 
   async componentDidMount() {
@@ -54,6 +54,13 @@ class App extends Component {
     this.setState({ selectedAlien: {}, home: 'MEDIA' });
   }
 
+  async createAlien(name, age, size, spec) {
+    const create = (await axios.post('/api/aliens', { name, age, size, spec }))
+      .data;
+    console.log(create);
+    this.setState({ aliens: [...this.state.aliens, create] });
+  }
+
   render() {
     const { aliens, selectedAlien, home, media } = this.state;
     return (
@@ -69,7 +76,7 @@ class App extends Component {
           {(() => {
             switch (home) {
               case 'HOME':
-                return <Home aliens={aliens} />;
+                return <Home aliens={aliens} createAlien={this.createAlien} />;
               case 'ALIENS':
                 return (
                   <AliensList

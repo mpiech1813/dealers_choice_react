@@ -8,16 +8,25 @@ aliensRouter.get('/', async (req, res, next) => {
     });
     res.send(list);
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 
 aliensRouter.post('/', async (req, res, next) => {
   try {
-    const newAlien = await Xenomorph.create({});
+    const { name, age, size, spec } = req.body;
+    const newAlien = await Xenomorph.create({
+      name,
+      growth: age,
+      size,
+      ability: spec,
+    });
+    res.status(201).send(newAlien);
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
+
+// create delete
 
 module.exports = aliensRouter;

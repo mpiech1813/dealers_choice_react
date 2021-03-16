@@ -1915,29 +1915,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 
-const Home = props => {
-  const {
-    aliens
-  } = props;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Welcom to the Xenomorph page. Currently there are ", aliens.length, " kinds of aliens described. Feel free to browse the list or add your own"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    type: "text",
-    id: "name"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
-    id: "age"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
-    value: "egg"
-  }, "Egg"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
-    value: "young"
-  }, "Young"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
-    value: "adult"
-  }, "Adult")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    type: "text",
-    id: "size"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
-    type: "text",
-    id: "spec"
-  })));
-};
+class Home extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      age: 'egg',
+      size: 'small',
+      spec: ''
+    };
+  }
+
+  render() {
+    const {
+      aliens,
+      createAlien
+    } = this.props;
+    const {
+      name,
+      age,
+      size,
+      spec
+    } = this.state;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      id: "home"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Welcom to the Xenomorph page. Currently there are ", aliens.length, ' ', "kinds of aliens described. Feel free to browse the list or add your own"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+      onSubmit: ev => {
+        ev.preventDefault();
+        createAlien(name, age, size, spec);
+        this.setState({
+          name: '',
+          age: '',
+          size: '',
+          spec: ''
+        });
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+      for: "name"
+    }, "Name: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+      type: "text",
+      id: "name",
+      value: name,
+      onChange: ev => this.setState({
+        name: ev.target.value
+      })
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+      for: "age"
+    }, "Age: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
+      id: "age",
+      value: age,
+      onChange: ev => this.setState({
+        age: ev.target.value
+      })
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "egg"
+    }, "Egg"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "young"
+    }, "Young"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "adult"
+    }, "Adult")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+      for: "size"
+    }, "Size: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
+      id: "size",
+      value: size,
+      onChange: ev => this.setState({
+        size: ev.target.value
+      })
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "small"
+    }, "Small"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "medium"
+    }, "Medium"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "large"
+    }, "Large"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+      value: "huge"
+    }, "Huge")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+      for: "spec"
+    }, "Special Ability: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+      type: "text",
+      id: "spec",
+      value: spec,
+      onChange: ev => this.setState({
+        spec: ev.target.value
+      })
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", null, "Submit")));
+  }
+
+}
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
 
@@ -32142,7 +32206,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import '../public/style.css';
+
 
 class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor() {
@@ -32151,12 +32215,13 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       aliens: [],
       media: [],
       selectedAlien: {},
-      home: ''
+      home: 'HOME'
     };
     this.selectAlien = this.selectAlien.bind(this);
     this.goHome = this.goHome.bind(this);
     this.goAliens = this.goAliens.bind(this);
     this.goMedia = this.goMedia.bind(this);
+    this.createAlien = this.createAlien.bind(this);
   }
 
   async componentDidMount() {
@@ -32205,6 +32270,19 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     });
   }
 
+  async createAlien(name, age, size, spec) {
+    const create = (await axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/aliens', {
+      name,
+      age,
+      size,
+      spec
+    })).data;
+    console.log(create);
+    this.setState({
+      aliens: [...this.state.aliens, create]
+    });
+  }
+
   render() {
     const {
       aliens,
@@ -32224,7 +32302,8 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
       switch (home) {
         case 'HOME':
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Home__WEBPACK_IMPORTED_MODULE_6__.default, {
-            aliens: aliens
+            aliens: aliens,
+            createAlien: this.createAlien
           });
 
         case 'ALIENS':
